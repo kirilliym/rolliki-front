@@ -1,0 +1,10 @@
+/* src/components/Auth/GoogleAuth.css */
+.google-auth-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.google-auth-button {
+  display: inline-block;
+}

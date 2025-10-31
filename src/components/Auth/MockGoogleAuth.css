@@ -1,0 +1,59 @@
+.mock-google-auth {
+  text-align: center;
+}
+
+.mock-google-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  min-width: 240px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.mock-google-button:hover {
+  background: #3367d6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.mock-google-button:disabled {
+  background: #6c8cd8;
+  cursor: not-allowed;
+}
+
+.google-icon {
+  background: white;
+  border-radius: 2px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-accounts {
+  margin-top: 20px;
+  padding: 15px;
+  background: #2d2d2d;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.demo-accounts h4 {
+  margin: 0 0 10px 0;
+  color: #e0e0e0;
+}
+
+.demo-account {
+  padding: 5px 0;
+  color: #aaa;
+  font-size: 14px;
+}
