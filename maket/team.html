@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Команда - ROLLIKI</title>
+    <style>
+        :root {
+            --dark-bg: #1a1a1a;
+            --dark-card: #2d2d2d;
+            --dark-text: #e0e0e0;
+            --accent-red: #c62828;
+            --accent-light: #ff5252;
+            --border-color: #404040;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --info: #2196f3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-red);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-link {
+            color: var(--dark-text);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--accent-red);
+        }
+        
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+        
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+        }
+        
+        .team-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .member-card {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .member-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: var(--accent-red);
+        }
+        
+        .member-info {
+            flex-grow: 1;
+        }
+        
+        .member-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .member-role {
+            font-size: 14px;
+            color: var(--accent-red);
+        }
+        
+        .member-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .efficiency-high {
+            color: var(--success);
+        }
+        
+        .efficiency-medium {
+            color: var(--warning);
+        }
+        
+        .efficiency-low {
+            color: var(--accent-red);
+        }
+        
+        .achievements {
+            margin-bottom: 15px;
+        }
+        
+        .achievements-title {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+        
+        .achievement-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .achievement {
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .achievement-icon {
+            color: gold;
+        }
+        
+        .member-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-red);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-light);
+        }
+        
+        .btn-secondary {
+            background-color: #333;
+            color: var(--dark-text);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #3a3a3a;
+        }
+        
+        /* Сайдбар */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .chat-widget, .storage-widget {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .widget-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding-right: 10px;
+        }
+        
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #333;
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .message-sender {
+            font-weight: bold;
+            color: var(--accent-red);
+        }
+        
+        .message-time {
+            color: #777;
+        }
+        
+        .message-text {
+            font-size: 14px;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input-field {
+            flex-grow: 1;
+            background-color: #333;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px;
+            color: var(--dark-text);
+        }
+        
+        .send-btn {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .storage-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .storage-info {
+            margin-bottom: 15px;
+        }
+        
+        .storage-bar {
+            height: 8px;
+            background-color: #333;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .storage-fill {
+            height: 100%;
+            background-color: var(--accent-red);
+            border-radius: 4px;
+            width: 65%;
+        }
+        
+        .storage-files {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .file-icon {
+            color: var(--accent-red);
+        }
+        
+        .file-info {
+            flex-grow: 1;
+        }
+        
+        .file-name {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .file-meta {
+            font-size: 12px;
+            color: #777;
+        }
+        
+        .online-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success);
+        }
+        
+        .online-text {
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        .performance-chart {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(45deg, #2d2d2d, #333);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            margin-top: 15px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1100px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                grid-row: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">ROLLIKI</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Дашборд</a>
+                <a href="#" class="nav-link">Конвейер</a>
+                <a href="#" class="nav-link">Статистика</a>
+                <a href="#" class="nav-link active">Команда</a>
+                <a href="#" class="nav-link">Настройки</a>
+            </div>
+        </header>
+        
+        <h1 class="page-title">Команда канала</h1>
+        <p class="page-subtitle">Управление участниками, общение и общие ресурсы</p>
+        
+        <div class="layout">
+            <div class="main-content">
+                <div class="team-section">
+                    <h2 class="section-title">Участники команды</h2>
+                    
+                    <div class="team-grid">
+                        <!-- Участник 1 -->
+                        <div class="member-card">
+                            <div class="member-header">
+                                <div class="member-avatar">ИП</div>
+                                <div class="member-info">
+                                    <div class="member-name">Иван Петров</div>
+                                    <div class="member-role">Владелец канала</div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-stats">
+                                <div class="stat">
+                                    <div class="stat-value">48</div>
+                                    <div class="stat-label">Видео</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value efficiency-high">94%</div>
+                                    <div class="stat-label">Эффективность</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">125K</div>
+                                    <div class="stat-label">Подписчики</div>
+                                </div>
+                            </div>
+                            
+                            <div class="achievements">
+                                <div class="achievements-title">Достижения:</div>
+                                <div class="achievement-list">
+                                    <div class="achievement">
+                                        <span class="achievement-icon">★</span>
+                                        <span>1M+ просмотров</span>
+                                    </div>
+                                    <div class="achievement">
+                                        <span class="achievement-icon">★</span>
+                                        <span>Трендовое видео</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-actions">
+                                <button class="btn btn-primary">
+                                    <span>Написать</span>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <span>Профиль</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Участник 2 -->
+                        <div class="member-card">
+                            <div class="member-header">
+                                <div class="member-avatar">АМ</div>
+                                <div class="member-info">
+                                    <div class="member-name">Алексей Монтажер</div>
+                                    <div class="member-role">Главный монтажер</div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-stats">
+                                <div class="stat">
+                                    <div class="stat-value">42</div>
+                                    <div class="stat-label">Задачи</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value efficiency-high">96%</div>
+                                    <div class="stat-label">Эффективность</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">38</div>
+                                    <div class="stat-label">В срок</div>
+                                </div>
+                            </div>
+                            
+                            <div class="achievements">
+                                <div class="achievements-title">Достижения:</div>
+                                <div class="achievement-list">
+                                    <div class="achievement">
+                                        <span class="achievement-icon">★</span>
+                                        <span>Лучший монтаж</span>
+                                    </div>
+                                    <div class="achievement">
+                                        <span class="achievement-icon">★</span>
+                                        <span>Быстрая работа</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-actions">
+                                <button class="btn btn-primary">
+                                    <span>Написать</span>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <span>Задачи</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Участник 3 -->
+                        <div class="member-card">
+                            <div class="member-header">
+                                <div class="member-avatar">МД</div>
+                                <div class="member-info">
+                                    <div class="member-name">Мария Дизайнер</div>
+                                    <div class="member-role">Графический дизайнер</div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-stats">
+                                <div class="stat">
+                                    <div class="stat-value">35</div>
+                                    <div class="stat-label">Задачи</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value efficiency-medium">78%</div>
+                                    <div class="stat-label">Эффективность</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">28</div>
+                                    <div class="stat-label">В срок</div>
+                                </div>
+                            </div>
+                            
+                            <div class="achievements">
+                                <div class="achievements-title">Достижения:</div>
+                                <div class="achievement-list">
+                                    <div class="achievement">
+                                        <span class="achievement-icon">★</span>
+                                        <span>Топ CTR</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-actions">
+                                <button class="btn btn-primary">
+                                    <span>Написать</span>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <span>Портфолио</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Участник 4 -->
+                        <div class="member-card">
+                            <div class="member-header">
+                                <div class="member-avatar">ДС</div>
+                                <div class="member-info">
+                                    <div class="member-name">Дмитрий Сценарист</div>
+                                    <div class="member-role">Копирайтер</div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-stats">
+                                <div class="stat">
+                                    <div class="stat-value">29</div>
+                                    <div class="stat-label">Задачи</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value efficiency-high">91%</div>
+                                    <div class="stat-label">Эффективность</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">27</div>
+                                    <div class="stat-label">В срок</div>
+                                </div>
+                            </div>
+                            
+                            <div class="achievements">
+                                <div class="achievements-title">Достижения:</div>
+                                <div class="achievement-list">
+                                    <div class="achievement">
+                                        <span class="achievement-icon">★</span>
+                                        <span>Вирусный сценарий</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="member-actions">
+                                <button class="btn btn-primary">
+                                    <span>Написать</span>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <span>Сценарии</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="performance-chart">
+                    <h2 class="section-title">Эффективность команды</h2>
+                    <div class="chart-placeholder">
+                        График эффективности команды за последний месяц
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="chat-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Командный чат</div>
+                        <div class="online-indicator">
+                            <div class="online-dot"></div>
+                            <div class="online-text">3 онлайн</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages">
+                        <div class="chat-message">
+                            <div class="message-header">
+                                <span class="message-sender">Иван Петров</span>
+                                <span class="message-time">14:20</span>
+                            </div>
+                            <div class="message-text">Ребята, у нас новый рекорд - видео набрало 100К просмотров за сутки!</div>
+                        </div>
+                        
+                        <div class="chat-message">
+                            <div class="message-header">
+                                <span class="message-sender">Алексей Монтажер</span>
+                                <span class="message-time">14:22</span>
+                            </div>
+                            <div class="message-text">Отлично! Я как раз заканчиваю монтаж следующего видео, завтра будет готов.</div>
+                        </div>
+                        
+                        <div class="chat-message">
+                            <div class="message-header">
+                                <span class="message-sender">Мария Дизайнер</span>
+                                <span class="message-time">14:25</span>
+                            </div>
+                            <div class="message-text">Для нового видео уже подготовила 3 варианта обложки, скину в общее хранилище.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" class="chat-input-field" placeholder="Написать сообщение...">
+                        <button class="send-btn">➤</button>
+                    </div>
+                </div>
+                
+                <div class="storage-widget">
+                    <div class="widget-header">
+                        <div class="widget-title">Общее хранилище</div>
+                    </div>
+                    
+                    <div class="storage-stats">
+                        <div class="stat">
+                            <div class="stat-value">3.2 GB</div>
+                            <div class="stat-label">Использовано</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5 GB</div>
+                            <div class="stat-label">Всего</div>
+                        </div>
+                    </div>
+                    
+                    <div class="storage-info">
+                        <div class="storage-bar">
+                            <div class="storage-fill"></div>
+                        </div>
+                        <div class="stat-label">65% использовано</div>
+                    </div>
+                    
+                    <div class="storage-files">
+                        <div class="file-item">
+                            <div class="file-icon">📁</div>
+                            <div class="file-info">
+                                <div class="file-name">Исходники_май.zip</div>
+                                <div class="file-meta">2.1 GB · 15.05.2023</div>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-icon">🎬</div>
+                            <div class="file-info">
+                                <div class="file-name">Обложки_проект.psd</div>
+                                <div class="file-meta">350 MB · 14.05.2023</div>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-icon">📄</div>
+                            <div class="file-info">
+                                <div class="file-name">Сценарии_июнь.docx</div>
+                                <div class="file-meta">15 MB · 13.05.2023</div>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-icon">🎵</div>
+                            <div class="file-info">
+                                <div class="file-name">Фоновая_музыка</div>
+                                <div class="file-meta">720 MB · 10.05.2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Простая логика для чата
+        document.querySelector('.send-btn').addEventListener('click', function() {
+            const input = document.querySelector('.chat-input-field');
+            const messageText = input.value.trim();
+            
+            if (messageText) {
+                const messagesContainer = document.querySelector('.chat-messages');
+                const newMessage = document.createElement('div');
+                newMessage.className = 'chat-message';
+                
+                const now = new Date();
+                const time = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                newMessage.innerHTML = `
+                    <div class="message-header">
+                        <span class="message-sender">Вы</span>
+                        <span class="message-time">${time}</span>
+                    </div>
+                    <div class="message-text">${messageText}</div>
+                `;
+                
+                messagesContainer.appendChild(newMessage);
+                input.value = '';
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        });
+        
+        // Отправка сообщения по Enter
+        document.querySelector('.chat-input-field').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.send-btn').click();
+            }
+        });
+    </script>
+</body>
+</html>

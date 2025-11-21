@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конвейер видео - ROLLIKI</title>
+    <style>
+        :root {
+            --dark-bg: #1a1a1a;
+            --dark-card: #2d2d2d;
+            --dark-text: #e0e0e0;
+            --accent-red: #c62828;
+            --accent-light: #ff5252;
+            --border-color: #404040;
+            --completed: #4caf50;
+            --in-progress: #ff9800;
+            --blocked: #757575;
+            --pending: #2196f3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-red);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-link {
+            color: var(--dark-text);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--accent-red);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .project-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            color: #aaa;
+        }
+        
+        .pipeline-container {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .pipeline {
+            display: flex;
+            min-width: 1000px;
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .stage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .stage-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 0 10px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tasks-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .task {
+            background-color: #3a3a3a;
+            border-radius: 6px;
+            padding: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--pending);
+        }
+        
+        .task:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .task.completed {
+            border-left-color: var(--completed);
+            opacity: 0.8;
+        }
+        
+        .task.in-progress {
+            border-left-color: var(--in-progress);
+        }
+        
+        .task.blocked {
+            border-left-color: var(--blocked);
+            background-color: #333;
+            opacity: 0.6;
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .task-assignee {
+            font-size: 12px;
+            color: var(--accent-red);
+        }
+        
+        .task-description {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        
+        .task-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .task-status {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .status-completed {
+            background-color: var(--completed);
+            color: white;
+        }
+        
+        .status-in-progress {
+            background-color: var(--in-progress);
+            color: white;
+        }
+        
+        .status-blocked {
+            background-color: var(--blocked);
+            color: white;
+        }
+        
+        .status-pending {
+            background-color: var(--pending);
+            color: white;
+        }
+        
+        .connector {
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            width: 20px;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+        
+        .connector::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid var(--border-color);
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+        
+        .completed-connector {
+            background-color: var(--completed);
+        }
+        
+        .completed-connector::after {
+            border-left-color: var(--completed);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-red);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-light);
+        }
+        
+        .btn-secondary {
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #3a3a3a;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .legend-completed {
+            background-color: var(--completed);
+        }
+        
+        .legend-in-progress {
+            background-color: var(--in-progress);
+        }
+        
+        .legend-blocked {
+            background-color: var(--blocked);
+        }
+        
+        .legend-pending {
+            background-color: var(--pending);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #333;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-red);
+            border-radius: 3px;
+            width: 65%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">ROLLIKI</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Дашборд</a>
+                <a href="#" class="nav-link active">Конвейер</a>
+                <a href="#" class="nav-link">Статистика</a>
+                <a href="#" class="nav-link">Команда</a>
+                <a href="#" class="nav-link">Настройки</a>
+            </div>
+        </header>
+        
+        <div class="project-header">
+            <div class="project-title">Создание видео: "Обзор нового iPhone 17"</div>
+            <div class="project-meta">
+                <span>Создано: 15.05.2023</span>
+                <span>Дедлайн: 30.05.2023</span>
+                <span>Приоритет: Высокий</span>
+            </div>
+        </div>
+        
+        <div class="progress-text">Общий прогресс: 65%</div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <div class="pipeline-container">
+            <div class="pipeline">
+                <!-- Этап 1: Подготовка -->
+                <div class="stage">
+                    <div class="stage-title">Подготовка</div>
+                    <div class="tasks-container">
+                        <div class="task completed">
+                            <div class="task-header">
+                                <div class="task-title">Идея и концепция</div>
+                                <div class="task-assignee">Менеджер</div>
+                            </div>
+                            <div class="task-description">Определение темы и формата видео</div>
+                            <div class="task-meta">
+                                <div class="task-date">15.05 - 16.05</div>
+                                <div class="task-status status-completed">Завершено</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task completed">
+                            <div class="task-header">
+                                <div class="task-title">Написание сценария</div>
+                                <div class="task-assignee">Копирайтер</div>
+                            </div>
+                            <div class="task-description">Создание детального сценария видео</div>
+                            <div class="task-meta">
+                                <div class="task-date">16.05 - 18.05</div>
+                                <div class="task-status status-completed">Завершено</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="connector completed-connector"></div>
+                </div>
+                
+                <!-- Этап 2: Съемка -->
+                <div class="stage">
+                    <div class="stage-title">Съемка</div>
+                    <div class="tasks-container">
+                        <div class="task completed">
+                            <div class="task-header">
+                                <div class="task-title">Подготовка оборудования</div>
+                                <div class="task-assignee">Оператор</div>
+                            </div>
+                            <div class="task-description">Настройка камеры, света и звука</div>
+                            <div class="task-meta">
+                                <div class="task-date">19.05 - 19.05</div>
+                                <div class="task-status status-completed">Завершено</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task in-progress">
+                            <div class="task-header">
+                                <div class="task-title">Основная съемка</div>
+                                <div class="task-assignee">Оператор</div>
+                            </div>
+                            <div class="task-description">Запись основного материала</div>
+                            <div class="task-meta">
+                                <div class="task-date">20.05 - 22.05</div>
+                                <div class="task-status status-in-progress">В процессе</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">Дополнительные кадры</div>
+                                <div class="task-assignee">Оператор</div>
+                            </div>
+                            <div class="task-description">Съемка B-roll и деталей</div>
+                            <div class="task-meta">
+                                <div class="task-date">23.05 - 23.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="connector"></div>
+                </div>
+                
+                <!-- Этап 3: Монтаж -->
+                <div class="stage">
+                    <div class="stage-title">Монтаж</div>
+                    <div class="tasks-container">
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">Черновой монтаж</div>
+                                <div class="task-assignee">Монтажер</div>
+                            </div>
+                            <div class="task-description">Сборка основного видеоряда</div>
+                            <div class="task-meta">
+                                <div class="task-date">24.05 - 25.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">Цветокоррекция</div>
+                                <div class="task-assignee">Колорист</div>
+                            </div>
+                            <div class="task-description">Коррекция цвета и экспозиции</div>
+                            <div class="task-meta">
+                                <div class="task-date">26.05 - 26.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">Добавление графики</div>
+                                <div class="task-assignee">Монтажер</div>
+                            </div>
+                            <div class="task-description">Инфографика, титры, переходы</div>
+                            <div class="task-meta">
+                                <div class="task-date">27.05 - 27.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="connector"></div>
+                </div>
+                
+                <!-- Этап 4: Дизайн -->
+                <div class="stage">
+                    <div class="stage-title">Дизайн</div>
+                    <div class="tasks-container">
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">Обложка видео</div>
+                                <div class="task-assignee">Дизайнер</div>
+                            </div>
+                            <div class="task-description">Создание привлекательной обложки</div>
+                            <div class="task-meta">
+                                <div class="task-date">28.05 - 28.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">Эндскрин</div>
+                                <div class="task-assignee">Дизайнер</div>
+                            </div>
+                            <div class="task-description">Создание завершающего экрана</div>
+                            <div class="task-meta">
+                                <div class="task-date">28.05 - 28.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="connector"></div>
+                </div>
+                
+                <!-- Этап 5: Публикация -->
+                <div class="stage">
+                    <div class="stage-title">Публикация</div>
+                    <div class="tasks-container">
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">SEO-оптимизация</div>
+                                <div class="task-assignee">Копирайтер</div>
+                            </div>
+                            <div class="task-description">Подбор ключевых слов и тегов</div>
+                            <div class="task-meta">
+                                <div class="task-date">29.05 - 29.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                        
+                        <div class="task blocked">
+                            <div class="task-header">
+                                <div class="task-title">Публикация на YouTube</div>
+                                <div class="task-assignee">Менеджер</div>
+                            </div>
+                            <div class="task-description">Загрузка и настройка видео</div>
+                            <div class="task-meta">
+                                <div class="task-date">30.05 - 30.05</div>
+                                <div class="task-status status-blocked">Заблокировано</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color legend-completed"></div>
+                <span>Завершено</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-in-progress"></div>
+                <span>В процессе</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-pending"></div>
+                <span>Ожидает</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color legend-blocked"></div>
+                <span>Заблокировано</span>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-secondary">Экспорт отчета</button>
+            <button class="btn btn-primary">Добавить задачу</button>
+        </div>
+    </div>
+
+    <script>
+        // Простая логика для обновления прогресса
+        document.querySelectorAll('.task').forEach(task => {
+            task.addEventListener('click', function() {
+                if (this.classList.contains('completed')) {
+                    this.classList.remove('completed');
+                    this.classList.add('in-progress');
+                    this.querySelector('.task-status').textContent = 'В процессе';
+                    this.querySelector('.task-status').className = 'task-status status-in-progress';
+                } else if (this.classList.contains('in-progress')) {
+                    this.classList.remove('in-progress');
+                    this.classList.add('completed');
+                    this.querySelector('.task-status').textContent = 'Завершено';
+                    this.querySelector('.task-status').className = 'task-status status-completed';
+                    
+                    // Обновляем коннекторы
+                    updateConnectors();
+                }
+            });
+        });
+        
+        function updateConnectors() {
+            // В реальном приложении здесь будет логика обновления коннекторов
+            // и разблокировки следующих задач
+        }
+    </script>
+</body>
+</html>

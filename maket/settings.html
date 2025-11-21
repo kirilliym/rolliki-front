@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки - ROLLIKI</title>
+    <style>
+        :root {
+            --dark-bg: #1a1a1a;
+            --dark-card: #2d2d2d;
+            --dark-text: #e0e0e0;
+            --accent-red: #c62828;
+            --accent-light: #ff5252;
+            --border-color: #404040;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --info: #2196f3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-red);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-link {
+            color: var(--dark-text);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--accent-red);
+        }
+        
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+        
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+        
+        .settings-sidebar {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .settings-nav {
+            list-style: none;
+        }
+        
+        .settings-nav-item {
+            margin-bottom: 10px;
+        }
+        
+        .settings-nav-link {
+            display: block;
+            padding: 12px 15px;
+            color: var(--dark-text);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .settings-nav-link:hover, .settings-nav-link.active {
+            background-color: var(--accent-red);
+            color: white;
+        }
+        
+        .settings-content {
+            background-color: var(--dark-card);
+            border-radius: 8px;
+            padding: 30px;
+        }
+        
+        .settings-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #333;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--dark-text);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-red);
+            box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+        }
+        
+        .form-text {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-red);
+        }
+        
+        .checkbox-label {
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-red);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-light);
+        }
+        
+        .btn-secondary {
+            background-color: #333;
+            color: var(--dark-text);
+            border: 1px solid var(--border-color);
+            margin-right: 10px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #3a3a3a;
+        }
+        
+        .btn-danger {
+            background-color: #d32f2f;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #f44336;
+        }
+        
+        .api-keys-list {
+            margin-top: 20px;
+        }
+        
+        .api-key-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .api-key-info {
+            flex-grow: 1;
+        }
+        
+        .api-key-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .api-key-value {
+            font-family: monospace;
+            background-color: #2a2a2a;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .api-key-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .integration-card {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .integration-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .integration-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--accent-red);
+        }
+        
+        .integration-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .integration-status {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .status-connected {
+            color: var(--success);
+        }
+        
+        .status-disconnected {
+            color: var(--warning);
+        }
+        
+        .billing-plan {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .plan-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .plan-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-red);
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .plan-feature {
+            padding: 8px 0;
+            border-bottom: 1px solid #404040;
+            display: flex;
+            align-items: center;
+        }
+        
+        .plan-feature:before {
+            content: "✓";
+            color: var(--success);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .danger-zone {
+            border: 1px solid #d32f2f;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        .danger-title {
+            color: #d32f2f;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .danger-text {
+            color: #aaa;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .two-factor-setup {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            color: #777;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-sidebar {
+                order: 2;
+            }
+            
+            .settings-content {
+                order: 1;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">ROLLIKI</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Дашборд</a>
+                <a href="#" class="nav-link">Конвейер</a>
+                <a href="#" class="nav-link">Статистика</a>
+                <a href="#" class="nav-link">Команда</a>
+                <a href="#" class="nav-link active">Настройки</a>
+            </div>
+        </header>
+        
+        <h1 class="page-title">Настройки канала</h1>
+        <p class="page-subtitle">Управление параметрами канала, интеграциями и безопасностью</p>
+        
+        <div class="settings-layout">
+            <div class="settings-sidebar">
+                <ul class="settings-nav">
+                    <li class="settings-nav-item">
+                        <a href="#profile" class="settings-nav-link active">Профиль канала</a>
+                    </li>
+                    <li class="settings-nav-item">
+                        <a href="#notifications" class="settings-nav-link">Уведомления</a>
+                    </li>
+                    <li class="settings-nav-item">
+                        <a href="#integrations" class="settings-nav-link">Интеграции</a>
+                    </li>
+                    <li class="settings-nav-item">
+                        <a href="#billing" class="settings-nav-link">Тарифы и оплата</a>
+                    </li>
+                    <li class="settings-nav-item">
+                        <a href="#security" class="settings-nav-link">Безопасность</a>
+                    </li>
+                    <li class="settings-nav-item">
+                        <a href="#api" class="settings-nav-link">API ключи</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="settings-content">
+                <!-- Профиль канала -->
+                <div class="settings-section" id="profile">
+                    <h2 class="section-title">Профиль канала</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Название канала</label>
+                        <input type="text" class="form-control" value="Мой канал">
+                        <div class="form-text">Это название будет отображаться в системе</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Описание канала</label>
+                        <textarea class="form-control" rows="4">Канал о создании видеоконтента, монтаже и продвижении.</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ссылка на канал </label>
+                        <input type="url" class="form-control" value="https://rutube.com/c/mychannel">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Нишевая категория</label>
+                        <select class="form-control">
+                            <option>Образование</option>
+                            <option selected>Развлечения</option>
+                            <option>Технологии</option>
+                            <option>Игры</option>
+                            <option>Музыка</option>
+                            <option>Спорт</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary">Сохранить изменения</button>
+                </div>
+                
+                <!-- Уведомления -->
+                <div class="settings-section" id="notifications">
+                    <h2 class="section-title">Уведомления</h2>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" class="checkbox" id="notif1" checked>
+                        <label class="checkbox-label" for="notif1">Уведомлять о новых задачах</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" class="checkbox" id="notif2" checked>
+                        <label class="checkbox-label" for="notif2">Уведомлять о завершении этапов</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" class="checkbox" id="notif3">
+                        <label class="checkbox-label" for="notif3">Уведомлять о новых сообщениях в чате</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" class="checkbox" id="notif4" checked>
+                        <label class="checkbox-label" for="notif4">Уведомлять о достижении KPI</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" class="checkbox" id="notif5">
+                        <label class="checkbox-label" for="notif5">Ежедневный отчет по электронной почте</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Частота уведомлений</label>
+                        <select class="form-control">
+                            <option>Мгновенно</option>
+                            <option selected>Каждые 30 минут</option>
+                            <option>Каждый час</option>
+                            <option>Раз в день</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary">Сохранить настройки</button>
+                </div>
+                
+                <!-- Интеграции -->
+                <div class="settings-section" id="integrations">
+                    <h2 class="section-title">Интеграции</h2>
+                    
+                    <div class="integration-card">
+                        <div class="integration-info">
+                            <div class="integration-icon">YT</div>
+                            <div>
+                                <div class="integration-name">YouTube API</div>
+                                <div class="integration-status status-connected">Подключено</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary">Настроить</button>
+                    </div>
+                    
+                    <div class="integration-card">
+                        <div class="integration-info">
+                            <div class="integration-icon">TG</div>
+                            <div>
+                                <div class="integration-name">Telegram Bot</div>
+                                <div class="integration-status status-connected">Подключено</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary">Настроить</button>
+                    </div>
+                    
+                    <div class="integration-card">
+                        <div class="integration-info">
+                            <div class="integration-icon">GD</div>
+                            <div>
+                                <div class="integration-name">Google Drive</div>
+                                <div class="integration-status status-disconnected">Не подключено</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Подключить</button>
+                    </div>
+                    
+                    <div class="integration-card">
+                        <div class="integration-info">
+                            <div class="integration-icon">SC</div>
+                            <div>
+                                <div class="integration-name">Slack</div>
+                                <div class="integration-status status-disconnected">Не подключено</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Подключить</button>
+                    </div>
+                </div>
+                
+                <!-- Тарифы и оплата -->
+                <div class="settings-section" id="billing">
+                    <h2 class="section-title">Тарифный план</h2>
+                    
+                    <div class="billing-plan">
+                        <div class="plan-header">
+                            <div class="plan-name">PROFESSIONAL</div>
+                            <div class="plan-price">1900руб/мес</div>
+                        </div>
+                        
+                        <ul class="plan-features">
+                            <li class="plan-feature">До 10 участников команды</li>
+                            <li class="plan-feature">Неограниченное количество видео</li>
+                            <li class="plan-feature">Расширенная аналитика</li>
+                            <li class="plan-feature">Приоритетная поддержка</li>
+                            <li class="plan-feature">Автоматическое резервное копирование</li>
+                        </ul>
+                        
+                        <button class="btn btn-secondary">Изменить тариф</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Способ оплаты</label>
+                        <select class="form-control">
+                            <option>Банковская карта •••• 4512</option>
+                            <option>PayPal</option>
+                            <option>ЮMoney</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary">Обновить способ оплаты</button>
+                </div>
+                
+                <!-- Безопасность -->
+                <div class="settings-section" id="security">
+                    <h2 class="section-title">Безопасность</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Текущий пароль</label>
+                        <input type="password" class="form-control" placeholder="Введите текущий пароль">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Новый пароль</label>
+                        <input type="password" class="form-control" placeholder="Введите новый пароль">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Подтверждение пароля</label>
+                        <input type="password" class="form-control" placeholder="Повторите новый пароль">
+                    </div>
+                    
+                    <button class="btn btn-primary">Изменить пароль</button>
+                    
+                    <div class="two-factor-setup">
+                        <h3>Двухфакторная аутентификация</h3>
+                        <p class="form-text">Добавьте дополнительный уровень безопасности к своей учетной записи</p>
+                        
+                        <div class="qr-code">
+                            QR-код для настройки<br>2FA в приложении
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Код подтверждения</label>
+                            <input type="text" class="form-control" placeholder="Введите код из приложения">
+                        </div>
+                        
+                        <button class="btn btn-primary">Активировать 2FA</button>
+                    </div>
+                </div>
+                
+                <!-- API ключи -->
+                <div class="settings-section" id="api">
+                    <h2 class="section-title">API ключи</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Создать новый API ключ</label>
+                        <input type="text" class="form-control" placeholder="Название ключа">
+                        <div class="form-text">Дайте ключу описательное имя, чтобы легко его идентифицировать</div>
+                    </div>
+                    
+                    <button class="btn btn-primary">Создать ключ</button>
+                    
+                    <div class="api-keys-list">
+                        <div class="api-key-item">
+                            <div class="api-key-info">
+                                <div class="api-key-name">Основное приложение</div>
+                                <div class="api-key-value">rk_live_••••••••••••••••••••••••••••••••</div>
+                            </div>
+                            <div class="api-key-actions">
+                                <button class="btn btn-secondary">Скопировать</button>
+                                <button class="btn btn-danger">Удалить</button>
+                            </div>
+                        </div>
+                        
+                        <div class="api-key-item">
+                            <div class="api-key-info">
+                                <div class="api-key-name">Тестовое окружение</div>
+                                <div class="api-key-value">rk_test_••••••••••••••••••••••••••••••••</div>
+                            </div>
+                            <div class="api-key-actions">
+                                <button class="btn btn-secondary">Скопировать</button>
+                                <button class="btn btn-danger">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Опасная зона -->
+                <div class="danger-zone">
+                    <h3 class="danger-title">Опасная зона</h3>
+                    <p class="danger-text">Эти действия необратимы. Пожалуйста, будьте осторожны.</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Удалить канал</label>
+                        <p class="form-text">После удаления канала все данные будут безвозвратно утеряны.</p>
+                        <button class="btn btn-danger">Удалить канал</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Экспорт данных</label>
+                        <p class="form-text">Скачайте архив со всеми данными вашего канала.</p>
+                        <button class="btn btn-secondary">Экспортировать данные</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Простая логика для навигации по настройкам
+        document.querySelectorAll('.settings-nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Убираем активный класс у всех ссылок
+                document.querySelectorAll('.settings-nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Добавляем активный класс к текущей ссылке
+                this.classList.add('active');
+                
+                // Прокручиваем к соответствующему разделу
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Имитация создания API ключа
+        document.querySelectorAll('.btn-primary').forEach(btn => {
+            if (btn.textContent === 'Создать ключ') {
+                btn.addEventListener('click', function() {
+                    const keyNameInput = this.previousElementSibling.previousElementSibling;
+                    const keyName = keyNameInput.value.trim();
+                    
+                    if (keyName) {
+                        alert(`API ключ "${keyName}" создан успешно!`);
+                        keyNameInput.value = '';
+                    } else {
+                        alert('Пожалуйста, введите название для API ключа');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROLLIKI - Вход в систему</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">ROLLIKI</div>
+            <h1>Добро пожаловать</h1>
+            <p>Войдите в свою учетную запись</p>
+        </div>
+        
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <label for="username">Имя пользователя</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="btn-text">Войти</span>
+                <div class="spinner hidden" id="spinner"></div>
+            </button>
+            
+            <div class="error-message hidden" id="errorMessage">
+                Неверное имя пользователя или пароль
+            </div>
+        </form>
+        
+        <div class="login-footer">
+            <p>Нет учетной записи? <a href="#" class="register-link">Зарегистрироваться</a></p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

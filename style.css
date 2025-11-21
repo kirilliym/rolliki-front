@@ -1,0 +1,213 @@
+:root {
+    --dark-bg: #1a1a1a;
+    --dark-card: #2d2d2d;
+    --dark-text: #e0e0e0;
+    --accent-red: #c62828;
+    --accent-light: #ff5252;
+    --border-color: #404040;
+    --input-bg: #3a3a3a;
+    --error-color: #f44336;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-container {
+    background-color: var(--dark-card);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border-color);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--accent-red);
+    margin-bottom: 20px;
+}
+
+.login-header h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.login-header p {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.input-group input {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: var(--dark-text);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+}
+
+.input-group input:hover {
+    border-color: #555;
+}
+
+.login-btn {
+    background-color: var(--accent-red);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-btn:hover {
+    background-color: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(198, 40, 40, 0.3);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.login-btn:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.error-message {
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.login-footer p {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.register-link {
+    color: var(--accent-red);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.register-link:hover {
+    color: var(--accent-light);
+    text-decoration: underline;
+}
+
+/* Анимации */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 25px;
+        margin: 10px;
+    }
+    
+    .logo {
+        font-size: 28px;
+    }
+    
+    .login-header h1 {
+        font-size: 22px;
+    }
+}

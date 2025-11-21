@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROLLIKI - Регистрация</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="registration-container">
+        <div class="registration-header">
+            <div class="logo">ROLLIKI</div>
+            <h1>Создать аккаунт</h1>
+            <p>Присоединяйтесь к нашей платформе</p>
+        </div>
+        
+        <form class="registration-form" id="registrationForm">
+            <div class="input-group">
+                <label for="username">Имя пользователя</label>
+                <input type="text" id="username" name="username" required>
+                <div class="input-hint">От 3 до 20 символов</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required>
+                <div class="input-hint">Не менее 6 символов</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="confirmPassword">Подтвердите пароль</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            
+            <button type="submit" class="registration-btn" id="registrationBtn">
+                <span class="btn-text">Зарегистрироваться</span>
+                <div class="spinner hidden" id="spinner"></div>
+            </button>
+            
+            <div class="error-message hidden" id="errorMessage">
+                Ошибка регистрации
+            </div>
+            
+            <div class="success-message hidden" id="successMessage">
+                Регистрация успешна! Перенаправляем...
+            </div>
+        </form>
+        
+        <div class="registration-footer">
+            <p>Уже есть аккаунт? <a href="../../index.html" class="login-link">Войти</a></p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
