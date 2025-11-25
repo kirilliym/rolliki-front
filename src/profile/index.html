@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROLLIKI - Профиль</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="profile-container" id="profileContainer">
+        <!-- Уведомление об ошибке -->
+        <div class="notification hidden" id="notification">
+            <div class="notification-content">
+                <span id="notificationMessage"></span>
+                <button class="notification-close" id="notificationClose">×</button>
+            </div>
+        </div>
+
+        <!-- Шапка профиля -->
+        <div class="profile-header">
+            <div class="logo">ROLLIKI</div>
+            <div class="user-info">
+                <h1 id="usernameDisplay">Пользователь</h1>
+                <button class="icon-btn edit-btn" id="editProfileBtn" title="Редактировать профиль">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </button>
+            </div>
+            <button class="btn btn-secondary" id="logoutBtn">Выйти</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Форма редактирования профиля -->
+        <div class="edit-profile-section hidden" id="editProfileSection">
+            <form class="edit-form" id="editProfileForm">
+                <div class="input-group">
+                    <label for="editUsername">Имя пользователя</label>
+                    <input type="text" id="editUsername" name="username">
+                </div>
+                <div class="input-group">
+                    <label for="currentPassword">Текущий пароль (для смены пароля)</label>
+                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Введите текущий пароль">
+                </div>
+                <div class="input-group">
+                    <label for="newPassword">Новый пароль</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Введите новый пароль">
+                </div>
+            </form>
+        </div>
+
+        <!-- Список каналов -->
+        <div class="channels-grid" id="channelsGrid">
+            <!-- Карточки будут загружены через JS -->
+        </div>
+
+        <!-- Кнопки сохранения при редактировании -->
+        <div class="form-actions hidden" id="formActions">
+            <button type="button" class="btn btn-primary" id="saveProfileBtn">Сохранить изменения</button>
+            <button type="button" class="btn btn-secondary" id="cancelEditBtn">Отмена</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROLLIKI - Создание проекта</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="create-project-container">
+        <div class="create-project-header">
+            <div class="logo">ROLLIKI</div>
+            <h1>Создание проекта</h1>
+            <p>Заполните информацию о вашем канале</p>
+        </div>
+        
+        <form class="create-project-form" id="createProjectForm">
+            <div class="form-section">
+                <h2>Профиль проекта</h2>
+                
+                <div class="input-group">
+                    <label for="projectName">Название проекта *</label>
+                    <input type="text" id="projectName" name="name" required>
+                    <div class="input-hint">Это название будет отображаться в системе</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="projectDescription">Описание</label>
+                    <textarea id="projectDescription" name="description" rows="3" placeholder="Опишите тематику вашего проекта"></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="channelUrl">Ссылка на канал</label>
+                    <input type="url" id="channelUrl" name="channelUrl" placeholder="https://rutube.com/channel/...">
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="backBtn">
+                    Назад
+                </button>
+                <button type="submit" class="btn btn-primary" id="createBtn">
+                    <span class="btn-text">Создать проект</span>
+                    <div class="spinner hidden" id="spinner"></div>
+                </button>
+            </div>
+            
+            <div class="error-message hidden" id="errorMessage">
+                Ошибка создания проекта
+            </div>
+            
+            <div class="success-message hidden" id="successMessage">
+                Проект успешно создан! Перенаправляем...
+            </div>
+        </form>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
