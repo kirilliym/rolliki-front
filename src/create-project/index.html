@@ -8,53 +8,43 @@
 </head>
 <body>
     <div class="create-project-container">
+        <div class="notification hidden" id="notification">
+            <div class="notification-content">
+                <span id="notificationMessage"></span>
+                <button class="notification-close" id="notificationClose">×</button>
+            </div>
+        </div>
+
         <div class="create-project-header">
             <div class="logo">ROLLIKI</div>
             <h1>Создание проекта</h1>
-            <p>Заполните информацию о вашем канале</p>
         </div>
-        
+
+        <div class="divider"></div>
+
         <form class="create-project-form" id="createProjectForm">
-            <div class="form-section">
-                <h2>Профиль проекта</h2>
-                
-                <div class="input-group">
-                    <label for="projectName">Название проекта *</label>
-                    <input type="text" id="projectName" name="name" required>
-                    <div class="input-hint">Это название будет отображаться в системе</div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="projectDescription">Описание</label>
-                    <textarea id="projectDescription" name="description" rows="3" placeholder="Опишите тематику вашего проекта"></textarea>
-                </div>
-                
-                <div class="input-group">
-                    <label for="channelUrl">Ссылка на канал</label>
-                    <input type="url" id="channelUrl" name="channelUrl" placeholder="https://rutube.com/channel/...">
-                </div>
+            <div class="input-group">
+                <label for="projectName">Название проекта *</label>
+                <input type="text" id="projectName" name="projectName" required>
             </div>
-            
-            <div class="form-actions">
-                <button type="button" class="btn btn-secondary" id="backBtn">
-                    Назад
-                </button>
-                <button type="submit" class="btn btn-primary" id="createBtn">
-                    <span class="btn-text">Создать проект</span>
-                    <div class="spinner hidden" id="spinner"></div>
-                </button>
+
+            <div class="input-group">
+                <label for="projectDescription">Описание</label>
+                <textarea id="projectDescription" name="projectDescription" rows="4"></textarea>
             </div>
-            
-            <div class="error-message hidden" id="errorMessage">
-                Ошибка создания проекта
-            </div>
-            
-            <div class="success-message hidden" id="successMessage">
-                Проект успешно создан! Перенаправляем...
+
+            <div class="input-group">
+                <label for="projectUrl">URL проекта *</label>
+                <input type="url" id="projectUrl" name="projectUrl" required>
             </div>
         </form>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="backBtn">Назад</button>
+            <button type="button" class="btn btn-primary" id="createProjectBtn">Создать проект</button>
+        </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>

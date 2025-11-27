@@ -442,7 +442,7 @@ class ProfilePage {
     openChannel(projectId) {
         localStorage.setItem('currentProjectId', projectId);
         localStorage.setItem('currentUserId', this.currentUserId);
-        window.location.href = `../channel/myVideo/index.html?user_id=${this.currentUserId}&project_id=${projectId}`;
+        window.location.href = `../project/videos/index.html?user_id=${this.currentUserId}&project_id=${projectId}`;
     }
     
     getRoleDisplayName(role) {

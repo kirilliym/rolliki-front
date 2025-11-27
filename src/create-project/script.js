@@ -1,113 +1,114 @@
 class CreateProjectPage {
     constructor() {
-        this.form = document.getElementById('createProjectForm');
-        this.backBtn = document.getElementById('backBtn');
-        this.createBtn = document.getElementById('createBtn');
-        this.spinner = document.getElementById('spinner');
-        this.btnText = this.createBtn.querySelector('.btn-text');
-        this.errorMessage = document.getElementById('errorMessage');
-        this.successMessage = document.getElementById('successMessage');
-        
+        this.currentUser = null;
+        this.currentUserId = null;
+        this.init();
+    }
+
+    async init() {
+        await this.loadUserData();
         this.initEventListeners();
     }
-    
-    initEventListeners() {
-        this.form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleCreateProject();
-        });
-        
-        this.backBtn.addEventListener('click', () => {
-            window.location.href = '../projects/index.html';
-        });
-    }
-    
-    async handleCreateProject() {
-        const formData = {
-            name: document.getElementById('projectName').value.trim(),
-            description: document.getElementById('projectDescription').value.trim(),
-            channelUrl: document.getElementById('channelUrl').value.trim(),
-            ownerId: localStorage.getItem('ownerId')
-        };
-        
-        // Валидация
-        if (!formData.name) {
-            this.showError('Введите название канала');
-            return;
-        }
-        
-        this.setLoading(true);
-        this.hideMessages();
-        
+
+    async loadUserData() {
         try {
-            const response = await this.sendCreateRequest(formData);
-            
-            if (response.ok) {
-                const projectData = await response.json();
-                this.handleSuccess(projectData);
+            const userData = localStorage.getItem('user');
+            if (userData) {
+                this.currentUser = JSON.parse(userData);
+                this.currentUserId = this.currentUser.id;
             } else {
-                this.showError('Ошибка при создании проекта');
+                window.location.href = '../../index.html';
             }
         } catch (error) {
-            console.error('Create project error:', error);
-            this.showError('Ошибка соединения с сервером');
-        } finally {
-            this.setLoading(false);
+            console.error('Error loading user data:', error);
+            window.location.href = '../../index.html';
         }
     }
-    
-    async sendCreateRequest(formData) {
-        const token = localStorage.getItem('token');
-        return fetch('http://localhost:8080/api/project', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(formData)
+
+    initEventListeners() {
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = '../profile/index.html';
+        });
+
+        document.getElementById('createProjectBtn').addEventListener('click', () => {
+            this.createProject();
+        });
+
+        document.getElementById('notificationClose').addEventListener('click', () => {
+            this.hideNotification();
+        });
+
+        document.getElementById('createProjectForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.createProject();
         });
     }
-    
-    handleSuccess(projectData) {
-        this.showSuccess('Проект успешно создан! Перенаправление...');
+
+    showNotification(message) {
+        const notification = document.getElementById('notification');
+        const messageElement = document.getElementById('notificationMessage');
         
-        // Редирект обратно на страницу проектов через 2 секунды
+        messageElement.textContent = message;
+        notification.classList.remove('hidden');
+        
         setTimeout(() => {
-            window.location.href = '../projects/index.html';
-        }, 2000);
+            this.hideNotification();
+        }, 5000);
     }
-    
-    setLoading(loading) {
-        if (loading) {
-            this.createBtn.disabled = true;
-            this.btnText.classList.add('hidden');
-            this.spinner.classList.remove('hidden');
-        } else {
-            this.createBtn.disabled = false;
-            this.btnText.classList.remove('hidden');
-            this.spinner.classList.add('hidden');
+
+    hideNotification() {
+        const notification = document.getElementById('notification');
+        notification.classList.add('hidden');
+    }
+
+    async createProject() {
+        const name = document.getElementById('projectName').value.trim();
+        const description = document.getElementById('projectDescription').value.trim();
+        const url = document.getElementById('projectUrl').value.trim();
+
+        if (!name) {
+            this.showNotification('Введите название проекта');
+            return;
         }
-    }
-    
-    showError(message) {
-        this.errorMessage.textContent = message;
-        this.errorMessage.classList.remove('hidden');
-        this.successMessage.classList.add('hidden');
-    }
-    
-    showSuccess(message) {
-        this.successMessage.textContent = message;
-        this.successMessage.classList.remove('hidden');
-        this.errorMessage.classList.add('hidden');
-    }
-    
-    hideMessages() {
-        this.errorMessage.classList.add('hidden');
-        this.successMessage.classList.add('hidden');
+
+        if (!url) {
+            this.showNotification('Введите URL проекта');
+            return;
+        }
+
+        const createBtn = document.getElementById('createProjectBtn');
+        createBtn.disabled = true;
+        createBtn.textContent = 'Создание...';
+
+        try {
+            const response = await fetch('http://localhost:8080/api/project', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    description: description,
+                    url: url,
+                    ownerId: this.currentUserId
+                })
+            });
+
+            if (response.ok) {
+                window.location.href = '../profile/index.html';
+            } else {
+                this.showNotification('Ошибка при создании проекта');
+            }
+        } catch (error) {
+            console.error('Error creating project:', error);
+            this.showNotification('Ошибка при создании проекта');
+        } finally {
+            createBtn.disabled = false;
+            createBtn.textContent = 'Создать проект';
+        }
     }
 }
 
-// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     new CreateProjectPage();
 });
