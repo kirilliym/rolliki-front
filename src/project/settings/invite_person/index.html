@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение пользователя</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="invite-container">
+        <div class="notification hidden" id="notification">
+            <div class="notification-content">
+                <span id="notificationMessage"></span>
+                <button class="notification-close" id="notificationClose">×</button>
+            </div>
+        </div>
+
+        <div class="invite-header">
+            <div class="project-name" id="projectName">Название проекта</div>
+            <h1>Приглашение пользователя</h1>
+        </div>
+
+        <div class="divider"></div>
+
+        <form class="invite-form" id="inviteForm">
+            <div class="input-group">
+                <label for="usernameInput">Логин пользователя</label>
+                <input type="text" id="usernameInput" name="username" required>
+            </div>
+
+            <div class="input-group">
+                <label for="roleSelect">Роль</label>
+                <select id="roleSelect" name="role" required>
+                    <option value="">Выберите роль</option>
+                </select>
+            </div>
+        </form>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="backBtn">Назад</button>
+            <button type="button" class="btn btn-primary" id="sendInviteBtn">Отправить приглашение</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

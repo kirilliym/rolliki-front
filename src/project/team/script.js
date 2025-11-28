@@ -1,4 +1,4 @@
-class VideosPage {
+class TeamPage {
     constructor() {
         this.currentUser = null;
         this.currentUserId = null;
@@ -14,7 +14,7 @@ class VideosPage {
         await this.loadProjectData();
         await this.checkUserRole();
         this.initEventListeners();
-        await this.loadVideos();
+        await this.loadTeamMembers();
     }
 
     async loadUserData() {
@@ -85,11 +85,11 @@ class VideosPage {
         });
 
         document.getElementById('videosBtn').addEventListener('click', () => {
-            // Уже на этой странице
+            window.location.href = '../videos/index.html';
         });
 
         document.getElementById('teamBtn').addEventListener('click', () => {
-            window.location.href = '../team/index.html';
+            // Уже на этой странице
         });
 
         document.getElementById('settingsBtn').addEventListener('click', () => {
@@ -118,104 +118,80 @@ class VideosPage {
         notification.classList.add('hidden');
     }
 
-    async loadVideos() {
+    async loadTeamMembers() {
         try {
-            const response = await fetch(`http://localhost:8080/api/video/project/${this.currentProjectId}`);
+            const response = await fetch(`http://localhost:8080/api/connection/project/${this.currentProjectId}/accepted`);
             if (response.ok) {
-                const videos = await response.json();
-                this.displayVideos(videos);
+                const connections = await response.json();
+                await this.displayTeamMembers(connections);
             } else {
-                this.showNotification('Ошибка загрузки видео');
+                this.showNotification('Ошибка загрузки команды');
             }
         } catch (error) {
-            console.error('Error loading videos:', error);
-            this.showNotification('Ошибка загрузки видео');
+            console.error('Error loading team members:', error);
+            this.showNotification('Ошибка загрузки команды');
         }
     }
 
-    displayVideos(videos) {
-        const container = document.getElementById('videosGrid');
+    async displayTeamMembers(connections) {
+        const container = document.getElementById('teamGrid');
         
-        if (videos.length === 0 && this.userRole !== 'OWNER') {
-            container.innerHTML = '<div class="message">В этом проекте пока нет видео</div>';
+        if (connections.length === 0) {
+            container.innerHTML = '<div class="message">В команде пока нет участников</div>';
             return;
         }
 
         container.innerHTML = '';
         
-        videos.forEach(video => {
-            const card = this.createVideoCard(video);
-            container.appendChild(card);
-        });
-
-        if (this.userRole === 'OWNER') {
-            const createCard = this.createCreateVideoCard();
-            container.appendChild(createCard);
+        for (const connection of connections) {
+            try {
+                const user = await this.getUserById(connection.userId);
+                const card = this.createMemberCard(user, connection);
+                container.appendChild(card);
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
         }
     }
 
-    createVideoCard(video) {
+    async getUserById(userId) {
+        const response = await fetch(`http://localhost:8080/api/users/${userId}`);
+        if (response.ok) {
+            return await response.json();
+        }
+        throw new Error('User not found');
+    }
+
+    createMemberCard(user, connection) {
         const card = document.createElement('div');
-        card.className = `video-card ${video.status.toLowerCase().replace('_', '-')}`;
-        
-        const createdAt = this.formatDate(video.createdAt);
-        const deadline = this.formatDate(video.deadline);
+        card.className = 'member-card';
         
         card.innerHTML = `
-            <div class="video-info">
-                <h3>${this.escapeHtml(video.title)}</h3>
-                <div class="video-meta">
-                    <div class="video-date">
-                        <span>Создано:</span>
-                        <span>${createdAt}</span>
-                    </div>
-                    <div class="video-date">
-                        <span>Дедлайн:</span>
-                        <span>${deadline}</span>
-                    </div>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar" style="width: ${video.completionPercentage}%">
-                        <span class="progress-text">${video.completionPercentage}%</span>
-                    </div>
-                </div>
-            </div>
+            <div class="member-username">${this.escapeHtml(user.username)}</div>
+            <div class="member-role">${this.getRoleDisplayName(connection.role)}</div>
         `;
         
         card.addEventListener('click', () => {
-            this.openVideo(video.id);
+            this.openChat(user.id);
         });
         
         return card;
     }
 
-    createCreateVideoCard() {
-        const card = document.createElement('div');
-        card.className = 'video-card create';
-        card.innerHTML = `
-            <div class="create-icon">+</div>
-        `;
-        
-        card.addEventListener('click', () => {
-            window.location.href = './create_video/stage1/index.html';
-        });
-        
-        return card;
+    openChat(userId) {
+        localStorage.setItem('chatUserId', userId);
+        window.location.href = '../../../chat/index.html';
     }
 
-    formatDate(dateString) {
-        try {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('ru-RU');
-        } catch (error) {
-            console.error('Error formatting date:', error);
-            return 'Некорректная дата';
-        }
-    }
-
-    openVideo(videoId) {
-        localStorage.setItem('currentVideoId', videoId);
-        window.location.href = '../../../video/info/index.html';
+    getRoleDisplayName(role) {
+        const roleNames = {
+            'OWNER': 'Владелец',
+            'EDITOR': 'Редактор',
+            'OPERATOR': 'Оператор',
+            'DESIGNER': 'Дизайнер',
+            'INVITE': 'Приглашенный'
+        };
+        return roleNames[role] || role;
     }
 
     escapeHtml(text) {
@@ -226,5 +202,5 @@ class VideosPage {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new VideosPage();
+    new TeamPage();
 });

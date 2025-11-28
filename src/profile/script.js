@@ -366,7 +366,7 @@ class ProfilePage {
         `;
         
         card.addEventListener('click', () => {
-            window.location.href = `../create-project/index.html?user_id=${this.currentUserId}`;
+            window.location.href = `../create_project/index.html?user_id=${this.currentUserId}`;
         });
         
         return card;

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание видео - Этапы работы</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="create-video-container">
+        <div class="notification hidden" id="notification">
+            <div class="notification-content">
+                <span id="notificationMessage"></span>
+                <button class="notification-close" id="notificationClose">×</button>
+            </div>
+        </div>
+
+        <div class="create-header">
+            <div class="project-name" id="projectName">Название проекта</div>
+            <h1>Создание видео</h1>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Степпер -->
+        <div class="stepper">
+            <div class="step completed">
+                <div class="step-circle">1</div>
+                <div class="step-label">Информация о видео</div>
+            </div>
+            <div class="step-connector active"></div>
+            <div class="step active">
+                <div class="step-circle">2</div>
+                <div class="step-label">Этапы работы</div>
+            </div>
+        </div>
+
+        <div class="method-selection">
+            <h3>Выберите способ создания этапов:</h3>
+            <select id="stageCreationMethod" class="method-select">
+                <option value="">Выберите способ</option>
+                <option value="copy">Скопировать стадии из существующего видео</option>
+                <option value="create">Создать новые стадии</option>
+            </select>
+        </div>
+
+        <!-- Опция копирования стадий -->
+        <div class="method-content hidden" id="copyOption">
+            <div class="input-group">
+                <label for="sourceVideoSelect">Выберите видео для копирования</label>
+                <select id="sourceVideoSelect">
+                    <option value="">Выберите видео</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Опция создания новых стадий -->
+        <div class="method-content hidden" id="createOption">
+            <div class="stages-list" id="stagesList">
+                <!-- Созданные стадии будут здесь -->
+            </div>
+
+            <!-- Карточка создания новой стадии -->
+            <div class="stage-card create" id="createStageCard">
+                <div class="stage-card-content">
+                    <div class="input-group">
+                        <input type="text" class="stage-title" placeholder="Название стадии" id="newStageTitle">
+                    </div>
+                    <div class="input-group">
+                        <textarea class="stage-description" placeholder="Описание стадии" id="newStageDescription" rows="3"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <select class="stage-role" id="newStageRole">
+                            <option value="">Выберите роль</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <select class="stage-dependency" id="newStageDependency">
+                            <option value="">Не зависит от других стадий</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary add-stage-btn" id="addStageBtn">+ Добавить стадию</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="backBtn">Назад</button>
+            <button type="button" class="btn btn-primary" id="createVideoBtn">Создать видео</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

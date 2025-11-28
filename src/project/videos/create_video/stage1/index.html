@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание видео - Информация</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="create-video-container">
+        <div class="notification hidden" id="notification">
+            <div class="notification-content">
+                <span id="notificationMessage"></span>
+                <button class="notification-close" id="notificationClose">×</button>
+            </div>
+        </div>
+
+        <div class="create-header">
+            <div class="project-name" id="projectName">Название проекта</div>
+            <h1>Создание видео</h1>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Степпер -->
+        <div class="stepper">
+            <div class="step active">
+                <div class="step-circle">1</div>
+                <div class="step-label">Информация о видео</div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+                <div class="step-circle">2</div>
+                <div class="step-label">Этапы работы</div>
+            </div>
+        </div>
+
+        <form class="video-form" id="videoForm">
+            <div class="input-group">
+                <label for="videoTitle">Название видео</label>
+                <input type="text" id="videoTitle" name="title" placeholder="Введите название видео" required>
+            </div>
+
+            <div class="input-group">
+                <label for="videoDescription">Описание видео</label>
+                <textarea id="videoDescription" name="description" rows="4" placeholder="Введите описание видео"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="videoDeadline">Дедлайн</label>
+                <input type="datetime-local" id="videoDeadline" name="deadline" required>
+            </div>
+        </form>
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-primary" id="nextStageBtn">Далее</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
