@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Канбан доска</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="kanban-container">
+        <div class="notification hidden" id="notification">
+            <div class="notification-content">
+                <span id="notificationMessage"></span>
+                <button class="notification-close" id="notificationClose">×</button>
+            </div>
+        </div>
+
+        <div class="video-header">
+            <div class="project-name" id="projectName">Название проекта</div>
+            <div class="video-info">
+                <h1 id="videoTitle">Название видео</h1>
+                <p id="videoDescription">Описание видео</p>
+            </div>
+            <button class="icon-btn back-btn" id="backBtn" title="Вернуться к видео">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Канбан доска -->
+        <div class="kanban-board" id="kanbanBoard">
+            <!-- Столбцы будут созданы через JS -->
+        </div>
+
+        <!-- Кнопки для владельца -->
+        <div class="owner-actions hidden" id="ownerActions">
+            <div class="form-actions">
+                <button type="button" class="btn btn-danger" id="deleteVideoBtn">Удалить видео</button>
+                <button type="button" class="btn btn-primary" id="addStageBtn">Добавить стадию</button>
+            </div>
+        </div>
+
+        <!-- Модальное окно информации о стадии -->
+        <div class="modal hidden" id="stageInfoModal">
+            <div class="modal-content">
+                <button class="modal-close" id="stageInfoClose">×</button>
+                <h3 id="stageInfoTitle">Название стадии</h3>
+                <div class="stage-info-content">
+                    <div class="info-group">
+                        <label>Описание:</label>
+                        <p id="stageInfoDescription">Описание стадии</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Требуемая роль:</label>
+                        <p id="stageInfoRole">Роль</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Зависит от:</label>
+                        <p id="stageInfoDependency">Не зависит</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Статус:</label>
+                        <p id="stageInfoStatus">Статус</p>
+                    </div>
+                    <div class="info-group">
+                        <label>Файлы:</label>
+                        <div class="files-list" id="stageInfoFiles">
+                            <!-- Файлы будут загружены через JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно загрузки файлов -->
+        <div class="modal hidden" id="uploadFilesModal">
+            <div class="modal-content">
+                <button class="modal-close" id="uploadFilesClose">×</button>
+                <h3>Загрузка файлов для стадии</h3>
+                <div class="upload-form">
+                    <div class="input-group">
+                        <label for="fileInput">Выберите файлы:</label>
+                        <input type="file" id="fileInput" multiple>
+                    </div>
+                    <div class="selected-files" id="selectedFiles">
+                        <!-- Выбранные файлы будут отображаться здесь -->
+                    </div>
+                    <button class="btn btn-primary" id="saveFilesBtn">Сохранить файлы</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно создания стадии -->
+        <div class="modal hidden" id="createStageModal">
+            <div class="modal-content large">
+                <button class="modal-close" id="createStageClose">×</button>
+                <h3>Добавить стадию</h3>
+                <div class="create-stage-form">
+                    <div class="input-group">
+                        <label for="newStageTitle">Название стадии</label>
+                        <input type="text" id="newStageTitle" placeholder="Введите название стадии">
+                    </div>
+                    <div class="input-group">
+                        <label for="newStageDescription">Описание</label>
+                        <textarea id="newStageDescription" placeholder="Введите описание стадии" rows="3"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="newStageRole">Требуемая роль</label>
+                        <select id="newStageRole">
+                            <option value="">Выберите роль</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="newStageDependency">Зависит от стадии</label>
+                        <select id="newStageDependency">
+                            <option value="">Не зависит</option>
+                        </select>
+                    </div>
+                    <!-- <div class="input-group">
+                        <label for="newStageLevel">Уровень</label>
+                        <input type="number" id="newStageLevel" min="0" value="0">
+                    </div> -->
+                    <button class="btn btn-primary" id="createStageSubmitBtn">Создать стадию</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Подтверждение удаления -->
+        <div class="modal hidden" id="confirmDeleteModal">
+            <div class="modal-content">
+                <h3>Подтверждение удаления</h3>
+                <p>Вы уверены, что хотите удалить это видео? Это действие нельзя отменить.</p>
+                <div class="modal-actions">
+                    <button class="btn btn-danger" id="confirmDeleteBtn">Удалить</button>
+                    <button class="btn btn-secondary" id="cancelDeleteBtn">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

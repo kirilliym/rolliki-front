@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание видео</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="create-video-container">
+        <div class="notification hidden" id="notification">
+            <div class="notification-content">
+                <span id="notificationMessage"></span>
+                <button class="notification-close" id="notificationClose">×</button>
+            </div>
+        </div>
+
+        <div class="create-header">
+            <div class="project-name" id="projectName">Название проекта</div>
+            <h1>Создание видео</h1>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Степпер -->
+        <div class="stepper">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Информация о видео</div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Этапы работы</div>
+            </div>
+        </div>
+
+        <!-- Стадия 1: Информация о видео -->
+        <div class="stage active" id="stage1">
+            <form class="video-form" id="videoForm">
+                <div class="input-group">
+                    <label for="videoTitle">Название видео</label>
+                    <input type="text" id="videoTitle" name="title" placeholder="Введите название видео" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="videoDescription">Описание видео</label>
+                    <textarea id="videoDescription" name="description" rows="4" placeholder="Введите описание видео"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="videoDeadline">Дедлайн</label>
+                    <input type="datetime-local" id="videoDeadline" name="deadline" required>
+                </div>
+            </form>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" id="nextStageBtn">Далее</button>
+            </div>
+        </div>
+
+        <!-- Стадия 2: Этапы работы -->
+        <div class="stage hidden" id="stage2">
+            <div class="method-selection">
+                <h3>Выберите способ создания этапов:</h3>
+                <div class="method-options">
+                    <div class="method-option">
+                        <input type="radio" id="copyMethod" name="creationMethod" value="copy" class="method-radio">
+                        <label for="copyMethod" class="method-label">
+                            <div class="method-title">Скопировать стадии из существующего видео</div>
+                            <div class="method-description">Выберите видео, стадии которого хотите скопировать</div>
+                        </label>
+                    </div>
+                    
+                    <div class="method-option">
+                        <input type="radio" id="createMethod" name="creationMethod" value="create" class="method-radio">
+                        <label for="createMethod" class="method-label">
+                            <div class="method-title">Создать новые стадии</div>
+                            <div class="method-description">Создайте этапы работы с нуля</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Опция копирования стадий -->
+            <div class="method-content hidden" id="copyOption">
+                <div class="input-group">
+                    <label for="sourceVideoSelect">Выберите видео для копирования</label>
+                    <select id="sourceVideoSelect">
+                        <option value="">Выберите видео</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Опция создания новых стадий -->
+            <div class="method-content hidden" id="createOption">
+                <div class="stages-list" id="stagesList">
+                    <!-- Созданные стадии будут здесь -->
+                </div>
+
+                <!-- Карточка создания новой стадии -->
+                <div class="stage-card create" id="createStageCard">
+                    <div class="stage-card-content">
+                        <div class="input-group">
+                            <input type="text" class="stage-title" placeholder="Название стадии" id="newStageTitle">
+                        </div>
+                        <div class="input-group">
+                            <textarea class="stage-description" placeholder="Описание стадии" id="newStageDescription" rows="3"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <select class="stage-role" id="newStageRole">
+                                <option value="">Выберите роль</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <select class="stage-dependency" id="newStageDependency">
+                                <option value="">Не зависит от других стадий</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary add-stage-btn" id="addStageBtn">+ Добавить стадию</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="prevStageBtn">Назад</button>
+                <button type="button" class="btn btn-primary" id="createVideoBtn">Создать видео</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

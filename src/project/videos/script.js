@@ -175,9 +175,8 @@ class VideosPage {
                     </div>
                 </div>
                 <div class="progress-container">
-                    <div class="progress-bar" style="width: ${video.completionPercentage}%">
-                        <span class="progress-text">${video.completionPercentage}%</span>
-                    </div>
+                    <div class="progress-bar" style="width: ${video.completionPercentage}%"></div>
+                    <span class="progress-text">${video.completionPercentage}%</span>
                 </div>
             </div>
         `;
@@ -215,7 +214,7 @@ class VideosPage {
 
     openVideo(videoId) {
         localStorage.setItem('currentVideoId', videoId);
-        window.location.href = '../../../video/info/index.html';
+        window.location.href = './video/index.html';
     }
 
     escapeHtml(text) {
